@@ -26,8 +26,11 @@ export const App = () => {
         const fetchData = async () => {
           const images = await getImages(searchQuery, page);
           setImages(prevImages => [...prevImages, ...images.hits]);
+
           if (!images.total) {
-            toast.error('Did find anything any!');
+            toast.error('Did find anything!');
+          } else if (page === 1) {
+            toast.success(`Hooray! We found ${images.total} images!`);
           }
         };
         fetchData();
@@ -44,6 +47,7 @@ export const App = () => {
       toast.info('Enter search value!');
       return;
     }
+
     setSearchQuery(query);
     setImages([]);
     setPage(1);
