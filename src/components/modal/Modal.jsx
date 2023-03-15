@@ -1,38 +1,32 @@
-import { Component } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ModalPage, Overlay, Img } from './Modal.styled';
 
-export class Modal extends Component {
-  closeModalBackdrop = event => {
+export const Modal = ({ largeImg, onModalClose }) => {
+  const closeModalBackdrop = event => {
     if (event.target === event.currentTarget) {
-      this.props.onModalClose();
+      onModalClose();
     }
   };
-  handlePressKey = event => {
+  const handlePressKey = event => {
     if (event.code === 'Escape') {
-      this.props.onModalClose();
+      onModalClose();
     }
   };
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handlePressKey);
-  }
+  useEffect(() => {
+    window.addEventListener('keydown', handlePressKey);
+    window.removeEventListener('keydown', handlePressKey);
+  }, []);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handlePressKey);
-  }
-
-  render() {
-    const { largeImg } = this.props;
-    return (
-      <Overlay onClick={this.closeModalBackdrop}>
-        <ModalPage>
-          <Img src={largeImg} alt="" />
-        </ModalPage>
-      </Overlay>
-    );
-  }
-}
+  return (
+    <Overlay onClick={closeModalBackdrop}>
+      <ModalPage>
+        <Img src={largeImg} alt="" />
+      </ModalPage>
+    </Overlay>
+  );
+};
 
 Modal.propTypes = {
   largeImg: PropTypes.string.isRequired,

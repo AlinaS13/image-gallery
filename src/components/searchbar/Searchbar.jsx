@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
 import SearchSVG from '../../assets/searchSVG';
 import {
@@ -9,13 +10,23 @@ import {
   SearchForm,
 } from './Searchbar.styled';
 
-export const Searchbar = ({ onSubmit, value }) => {
+export const Searchbar = ({ onSubmit }) => {
+  const [localValue, setLocalValue] = useState('');
+
   return (
-    <SearchbarElem onSubmit={onSubmit}>
+    <SearchbarElem
+      onSubmit={e => {
+        e.preventDefault();
+        onSubmit(localValue);
+      }}
+    >
       <SearchForm>
         <Input
+          onChange={e => {
+            setLocalValue(e.target.value);
+          }}
           name={'searchfield'}
-          value={value}
+          value={localValue}
           type="text"
           autocomplete="off"
           placeholder="Search images and photos"
