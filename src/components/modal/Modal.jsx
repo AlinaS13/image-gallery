@@ -17,7 +17,7 @@ export const Modal = ({ largeImg, onModalClose }) => {
   useEffect(() => {
     window.addEventListener('keydown', handlePressKey);
     window.removeEventListener('keydown', handlePressKey);
-  }, []);
+  });
 
   return (
     <Overlay onClick={closeModalBackdrop}>
