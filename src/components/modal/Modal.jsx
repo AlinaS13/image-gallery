@@ -16,8 +16,11 @@ export const Modal = ({ largeImg, onModalClose }) => {
 
   useEffect(() => {
     window.addEventListener('keydown', handlePressKey);
-    window.removeEventListener('keydown', handlePressKey);
-  });
+    return () => {
+      window.removeEventListener('keydown', handlePressKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Overlay onClick={closeModalBackdrop}>
